@@ -14,5 +14,13 @@
 
 ***
 
+## Useful links:
+
+### https://github.com/asigalov61/Euterpe
+### https://github.com/asigalov61/tegridy-tools/tree/main/tegridy-tools/LWA-Transformer
+### https://aclanthology.org/2020.acl-main.672/
+
+***
+
 ### Project Los Angeles
 ### Tegridy Code 2023
