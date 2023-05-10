@@ -12,6 +12,19 @@
 [colab-notebook2]: <https://colab.research.google.com/github/asigalov61/Euterpe-X/blob/main/Euterpe_X.ipynb>
 [colab-badge]: <https://colab.research.google.com/assets/colab-badge.svg>
 
+### Features demonstration
+
+***
+
+## Text-To-Music Version
+
+[![Open In Colab][colab-badge]][colab-notebook1]
+
+[colab-notebook1]: <https://colab.research.google.com/github/asigalov61/Euterpe-X/blob/main/Euterpe_X_TTM_Edition.ipynb>
+[colab-badge]: <https://colab.research.google.com/assets/colab-badge.svg>
+
+### Generate music based on the title of your imagination :)
+
 ***
 
 ## Useful links:
