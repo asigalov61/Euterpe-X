@@ -9,8 +9,6 @@
 
 ***
 
-## Recommended MIDI dataset: [LAKH MIDI Dataset](https://colinraffel.com/projects/lmd/)
-
 ## Recommended DL/ML cloud provider: [Lambda Labs](https://lambdalabs.com/)
 
 ***
