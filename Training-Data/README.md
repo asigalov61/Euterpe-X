@@ -9,5 +9,9 @@
 
 ***
 
+## Recommended MIDI dataset: [LAKH MIDI Dataset](https://colinraffel.com/projects/lmd/)
+
+***
+
 ### Project Los Angeles
 ### Tegridy Code 2023
