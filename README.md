@@ -1,5 +1,5 @@
 # Euterpe X
-## Local windowed attention multi-instrumental music transformer for supervised music generation, optimized for speed, performance, and efficiency
+## [PyTorch 2.0] Full-attention multi-instrumental music transformer for supervised music generation, optimized for speed, efficiency, and performance
 
 ![Euterpe-00003](https://user-images.githubusercontent.com/56325539/236949173-1c9e8e45-db71-4d22-9c6b-561c0304fada.png)
 
@@ -30,8 +30,8 @@
 ## Useful links:
 
 ### https://github.com/asigalov61/Euterpe
-### https://github.com/asigalov61/tegridy-tools/tree/main/tegridy-tools/LWA-Transformer
-### https://aclanthology.org/2020.acl-main.672/
+### https://github.com/asigalov61/tegridy-tools/tree/main/tegridy-tools/X-Transformer
+### https://github.com/lucidrains/x-transformers
 
 ***
 
