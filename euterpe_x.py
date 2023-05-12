@@ -526,12 +526,22 @@ plt.show()
 
 #@title Standard/Simple Continuation
 
-number_of_prime_tokens = 513 #@param {type:"slider", min:3, max:2046, step:3}
-number_of_tokens_to_generate = 512 #@param {type:"slider", min:30, max:2046, step:30}
+#@markdown Generation settings
+
+number_of_prime_tokens = 255 #@param {type:"slider", min:3, max:2046, step:3}
+number_of_tokens_to_generate = 630 #@param {type:"slider", min:30, max:2046, step:30}
 number_of_batches_to_generate = 4 #@param {type:"slider", min:1, max:16, step:1}
+temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
+
+#@markdown Outro generation option
+
+#@markdown NOTE: Outro generation needs at least 200 notes (600 tokens) of sequence length. This option is a strong suggestion to the model, not a requirement, so sometimes model will not generate outro as requested
+
+try_to_generate_outro = False #@param {type:"boolean"}
+
+#@markdown Other settings
 include_prime_tokens_in_generated_output = True #@param {type:"boolean"}
 allow_model_to_stop_generation_if_needed = False #@param {type:"boolean"}
-temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
 
 print('=' * 70)
 print('Euterpe X Standard Model Generator')
@@ -543,6 +553,9 @@ else:
   min_stop_token = None
 
 outy = melody_chords_f[:number_of_prime_tokens]
+
+if try_to_generate_outro:
+  outy.extend([3328, 3328, 3328])
 
 inp = [outy] * number_of_batches_to_generate
 
@@ -640,7 +653,7 @@ for i in range(number_of_batches_to_generate):
 """# (INPAINT)"""
 
 #@title Pitches/Instruments Inpainting
-number_of_prime_notes = 64 #@param {type:"slider", min:0, max:128, step:1}
+number_of_prime_notes = 128 #@param {type:"slider", min:0, max:256, step:1}
 temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
 
 print('=' * 70)
@@ -747,7 +760,7 @@ if len(out2) != 0:
 melody_instrument = "Flute" #@param ["Piano", "Guitar", "Bass", "Violin", "Cello", "Harp", "Trumpet", "Sax", "Flute", "Choir", "Organ"]
 melody_length_in_notes = 48 #@param {type:"slider", min:16, max:512, step:16}
 number_of_prime_notes = 0 #@param {type:"slider", min:0, max:32, step:1}
-number_of_generation_attempts_per_melody_note = 2 #@param {type:"slider", min:1, max:64, step:1}
+number_of_generation_attempts_per_melody_note = 2 #@param {type:"slider", min:1, max:16, step:1}
 temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
 
 print('=' * 70)
