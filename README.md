@@ -16,6 +16,17 @@
 
 ***
 
+## Composer Version
+
+[![Open In Colab][colab-badge]][colab-notebook3]
+
+[colab-notebook3]: <https://colab.research.google.com/github/asigalov61/Euterpe-X/blob/main/Euterpe_X_Composer.ipynb>
+[colab-badge]: <https://colab.research.google.com/assets/colab-badge.svg>
+
+### MuseNet-style workflow for endless supervised continuation generation
+
+***
+
 ## Text-To-Music Version
 
 [![Open In Colab][colab-badge]][colab-notebook1]
