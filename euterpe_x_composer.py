@@ -407,6 +407,7 @@ plt.show()
 number_of_batches_to_generate = 4 #@param {type:"slider", min:1, max:16, step:1}
 number_of_memory_tokens = 2046 #@param {type:"slider", min:402, max:2046, step:3}
 temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
+try_to_generate_outro = False #@param {type:"boolean"}
 
 print('=' * 70)
 print('Los Angeles Music Composer Standard Model Generator')
@@ -414,7 +415,12 @@ print('=' * 70)
 
 preview = melody_chords_f[-120:]
 
-inp = [melody_chords_f[-number_of_memory_tokens:]] * number_of_batches_to_generate
+mel_cho = melody_chords_f[-number_of_memory_tokens:]
+
+if try_to_generate_outro:
+  mel_cho.extend([3328, 3328, 3328])
+
+inp = [mel_cho] * number_of_batches_to_generate
 
 inp = torch.LongTensor(inp).cuda()
 
