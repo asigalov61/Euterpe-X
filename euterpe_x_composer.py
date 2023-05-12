@@ -427,7 +427,8 @@ inp = torch.LongTensor(inp).cuda()
 out = model.module.generate(inp, 
                             630, 
                             temperature=temperature, 
-                            return_prime=False,  
+                            return_prime=False,
+                            eos_token=3343,  
                             verbose=True)
 
 out0 = out.tolist()
