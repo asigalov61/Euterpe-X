@@ -1,8 +1,8 @@
-# Euterpe X Pre-Trained Model
+# Euterpe X Small Pre-Trained Model
 
 ***
 
-## Euterpe X Pre-Trained Model Training Dataset Stats
+## Euterpe X Small Pre-Trained Model Training Dataset Stats
 
 ### Model was trained on 141305 MIDIs from LAKH MIDI dataset
 
