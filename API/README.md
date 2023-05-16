@@ -2,7 +2,11 @@
 
 ***
 
-## Try Euterpe X LIVE API in Google Colab !!!
+## Listen to the API samples on [Euterpe X Pythonanywhere Site](https://projectlosangeles.pythonanywhere.com/)
+
+***
+
+## Or try Euterpe X LIVE API in Google Colab !!!
 
 [![Open In Colab][colab-badge]][colab-notebook2]
 
