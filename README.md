@@ -46,5 +46,9 @@
 
 ***
 
+## Special thanks goes out to [Lambda Labs](https://lambdalabs.com/) for helping with this project and making it possible :)
+
+***
+
 ### Project Los Angeles
 ### Tegridy Code 2023
