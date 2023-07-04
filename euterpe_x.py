@@ -101,9 +101,9 @@ print('=' * 70)
 print('Loading Euterpe X Small Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X', 
-                filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth', 
-                local_dir='/content/Euterpe-X/Models/Small/', 
+hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth',
+                local_dir='/content/Euterpe-X/Models/Small/',
                 local_dir_use_symlinks=False)
 print('=' * 70)
 print('Instantiating model...')
@@ -170,9 +170,9 @@ print('=' * 70)
 print('Loading Euterpe X Large Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X', 
-                filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth', 
-                local_dir='/content/Euterpe-X/Models/Large', 
+hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth',
+                local_dir='/content/Euterpe-X/Models/Large',
                 local_dir_use_symlinks=False)
 print('=' * 70)
 print('Instantiating model...')
@@ -235,7 +235,7 @@ plt.savefig("/content/Euterpe-X-Large-Tokens-Embeddings-Plot.png", bbox_inches="
 
 #@markdown Improv settings
 
-#@markdown NOTE: The improv settings below are just the strong suggestions for the model, not the requirements. 
+#@markdown NOTE: The improv settings below are just the strong suggestions for the model, not the requirements.
 
 #@markdown Some settings combinations may not work well.
 
@@ -272,10 +272,10 @@ inp = [outy] * number_of_batches_to_generate
 
 inp = torch.LongTensor(inp).cuda()
 
-out = model.module.generate(inp, 
-                      number_of_tokens_tp_generate, 
-                      temperature=temperature, 
-                      return_prime=True, 
+out = model.module.generate(inp,
+                      number_of_tokens_tp_generate,
+                      temperature=temperature,
+                      return_prime=True,
                       verbose=True)
 
 out0 = out.tolist()
@@ -300,7 +300,7 @@ for i in range(number_of_batches_to_generate):
   print('=' * 70)
 
   if len(out1) != 0:
-    
+
       song = out1
       song_f = []
 
@@ -315,11 +315,11 @@ for i in range(number_of_batches_to_generate):
         if ss > 0 and ss < 256:
 
             time += ss * 8
-          
+
         if ss >= 256 and ss < 256+(12*128):
 
             dur = ((ss-256) % 128) * 30
-            
+
         if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
             channel = (ss-(256+(12*128))) // 128
             pitch = (ss-(256+(12*128))) % 128
@@ -328,8 +328,8 @@ for i in range(number_of_batches_to_generate):
             song_f.append(['note', time, dur, channel, pitch, vel ])
 
       detailed_stats = TMIDIX.Tegridy_SONG_to_MIDI_Converter(song_f,
-                                                          output_signature = 'Euterpe X',  
-                                                          output_file_name = '/content/Euterpe-X-Music-Composition_'+str(i), 
+                                                          output_signature = 'Euterpe X',
+                                                          output_file_name = '/content/Euterpe-X-Music-Composition_'+str(i),
                                                           track_name='Project Los Angeles',
                                                           list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0],
                                                           number_of_ticks_per_quarter=500)
@@ -400,7 +400,7 @@ itrack = 1
 patches = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 patch_map = [
-            [0, 1, 2, 3, 4, 5, 6, 7], # Piano 
+            [0, 1, 2, 3, 4, 5, 6, 7], # Piano
             [24, 25, 26, 27, 28, 29, 30], # Guitar
             [32, 33, 34, 35, 36, 37, 38, 39], # Bass
             [40, 41], # Violin
@@ -415,7 +415,7 @@ patch_map = [
             ]
 
 while itrack < len(score):
-  for event in score[itrack]:         
+  for event in score[itrack]:
       if event[0] == 'note' or event[0] == 'patch_change':
           events_matrix.append(event)
   itrack += 1
@@ -472,13 +472,13 @@ if len(events_matrix1) > 0 and len(instruments_list_without_drums) > 0:
     if e[1] >= 0 and e[2] > 0:
 
       # Cliping all values...
-      tim = max(0, min(255, e[1]-pe[1]))             
+      tim = max(0, min(255, e[1]-pe[1]))
       dur = max(1, min(127, e[2]))
       cha = max(0, min(11, e[3]))
       ptc = max(1, min(127, e[4]))
       vel = max(1, min(127, e[5]))
 
-      # Writing final note 
+      # Writing final note
       melody_chords.append([tim, dur, cha, ptc, vel])
 
       pe = e
@@ -512,12 +512,12 @@ for m in melody_chords:
   time = m[0]
   cha_dur = (m[2] * 128) + m[1]
   cha_ptc = (m[2] * 128) + m[3]
-    
+
   melody_chords_f.extend([time, cha_dur+256, cha_ptc+1792])
   melody_chords_f1.append([time, cha_dur+256, cha_ptc+1792])
 
 #=======================================================
-  
+
 song = melody_chords_f
 
 song_f = []
@@ -533,11 +533,11 @@ for ss in song:
   if ss > 0 and ss < 256:
 
       time += ss * 8
-    
+
   if ss >= 256 and ss < 256+(12*128):
 
       dur = ((ss-256) % 128) * 30
-      
+
   if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
       channel = (ss-(256+(12*128))) // 128
       pitch = (ss-(256+(12*128))) % 128
@@ -546,12 +546,12 @@ for ss in song:
       song_f.append(['note', time, dur, channel, pitch, vel ])
 
 detailed_stats = TMIDIX.Tegridy_SONG_to_MIDI_Converter(song_f,
-                                                      output_signature = 'Euterpe X',  
+                                                      output_signature = 'Euterpe X',
                                                       output_file_name = '/content/Euterpe-X-Seed-Composition',
                                                       track_name='Project Los Angeles',
                                                       list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0],
                                                       number_of_ticks_per_quarter=500)
-    
+
 #=======================================================
 
 print('=' * 70)
@@ -625,11 +625,11 @@ inp = [outy] * number_of_batches_to_generate
 
 inp = torch.LongTensor(inp).cuda()
 
-out = model.module.generate(inp, 
-                      number_of_tokens_to_generate, 
-                      temperature=temperature, 
-                      return_prime=include_prime_tokens_in_generated_output, 
-                      eos_token=min_stop_token, 
+out = model.module.generate(inp,
+                      number_of_tokens_to_generate,
+                      temperature=temperature,
+                      return_prime=include_prime_tokens_in_generated_output,
+                      eos_token=min_stop_token,
                       verbose=True)
 
 out0 = out.tolist()
@@ -652,7 +652,7 @@ for i in range(number_of_batches_to_generate):
   print('=' * 70)
 
   if len(out) != 0:
-      
+
       song = out1
       song_f = []
 
@@ -667,11 +667,11 @@ for i in range(number_of_batches_to_generate):
         if ss > 0 and ss < 256:
 
             time += ss * 8
-          
+
         if ss >= 256 and ss < 256+(12*128):
 
             dur = ((ss-256) % 128) * 30
-            
+
         if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
             channel = (ss-(256+(12*128))) // 128
             pitch = (ss-(256+(12*128))) % 128
@@ -680,8 +680,8 @@ for i in range(number_of_batches_to_generate):
             song_f.append(['note', time, dur, channel, pitch, vel ])
 
       detailed_stats = TMIDIX.Tegridy_SONG_to_MIDI_Converter(song_f,
-                                                          output_signature = 'Euterpe X',  
-                                                          output_file_name = '/content/Euterpe-X-Music-Composition_'+str(i), 
+                                                          output_signature = 'Euterpe X',
+                                                          output_file_name = '/content/Euterpe-X-Music-Composition_'+str(i),
                                                           track_name='Project Los Angeles',
                                                           list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0],
                                                           number_of_ticks_per_quarter=500)
@@ -804,11 +804,11 @@ for i in tqdm.tqdm(range(number_of_prime_notes, len(melody_chords_f1))):
       inp = torch.LongTensor(out2[-number_of_memory_tokens:]).cuda()
 
       out1 = model.module.generate(inp,
-                            1, 
-                            temperature=temperature, 
-                            return_prime=True, 
+                            1,
+                            temperature=temperature,
+                            return_prime=True,
                             verbose=False)
-      
+
       with torch.no_grad():
         test_loss, test_acc = model(out1)
 
@@ -832,7 +832,7 @@ print('Rendering results...')
 print('=' * 70)
 
 if len(out2) != 0:
-    
+
     song = out2
     song_f = []
 
@@ -847,11 +847,11 @@ if len(out2) != 0:
       if ss > 0 and ss < 256:
 
           time += ss * 8
-        
+
       if ss >= 256 and ss < 256+(12*128):
 
             dur = ((ss-256) % 128) * 30
-            
+
       if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
           channel = (ss-(256+(12*128))) // 128
           pitch = (ss-(256+(12*128))) % 128
@@ -860,8 +860,8 @@ if len(out2) != 0:
           song_f.append(['note', time, dur, channel, pitch, vel ])
 
     detailed_stats = TMIDIX.Tegridy_SONG_to_MIDI_Converter(song_f,
-                                                        output_signature = 'Euterpe X',  
-                                                        output_file_name = '/content/Euterpe-X-Music-Composition', 
+                                                        output_signature = 'Euterpe X',
+                                                        output_file_name = '/content/Euterpe-X-Music-Composition',
                                                         track_name='Project Los Angeles',
                                                         list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0],
                                                         number_of_ticks_per_quarter=500)
@@ -936,7 +936,7 @@ for e in events_matrix1:
       # WRITING EACH NOTE HERE
       cha_dur = (cha * 128) + dur
       cha_ptc = (cha * 128) + ptc_aug
-    
+
       if time != 0:
         melody.append([time, cha_dur+256, cha_ptc+1792])
 
@@ -960,6 +960,7 @@ for m in melody[:number_of_prime_notes]:
   inp.extend(m)
 
 chord_time = 0
+pct = 0
 
 for i in tqdm.tqdm(range(number_of_prime_notes, len(melody[:melody_length_in_notes])-1)):
 
@@ -976,13 +977,13 @@ for i in tqdm.tqdm(range(number_of_prime_notes, len(melody[:melody_length_in_not
   count = 0
 
   while chord_time < next_note_time and count < number_of_generation_attempts_per_melody_note:
-   
-    out1 = model.module.generate(inp[None, ...], 
-                          3, 
-                          temperature=temperature, 
-                          return_prime=False, 
+
+    out1 = model.module.generate(inp[None, ...],
+                          3,
+                          temperature=temperature,
+                          return_prime=False,
                           verbose=False)
-    
+
     inp = torch.cat((inp, out1[0]))
 
     pct = chord_time
@@ -990,7 +991,7 @@ for i in tqdm.tqdm(range(number_of_prime_notes, len(melody[:melody_length_in_not
     count += 1
 
     if out1[0][0] < 256:
-      
+
       chord_time += out1[0][0].item()
 
   inp = inp[:-3].tolist()
@@ -1010,7 +1011,7 @@ print('Sample INTs', out1[:12])
 print('=' * 70)
 
 if len(out1) != 0:
-    
+
     song = out1
     song_f = []
 
@@ -1025,11 +1026,11 @@ if len(out1) != 0:
       if ss > 0 and ss < 256:
 
           time += ss * 8
-        
+
       if ss >= 256 and ss < 256+(12*128):
 
           dur = ((ss-256) % 128) * 30
-          
+
       if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
           channel = (ss-(256+(12*128))) // 128
           pitch = (ss-(256+(12*128))) % 128
@@ -1038,8 +1039,8 @@ if len(out1) != 0:
           song_f.append(['note', time, dur, channel, pitch, vel ])
 
     detailed_stats = TMIDIX.Tegridy_SONG_to_MIDI_Converter(song_f,
-                                                        output_signature = 'Euterpe X',  
-                                                        output_file_name = '/content/Euterpe-X-Music-Composition', 
+                                                        output_signature = 'Euterpe X',
+                                                        output_file_name = '/content/Euterpe-X-Music-Composition',
                                                         track_name='Project Los Angeles',
                                                         list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0],
                                                         number_of_ticks_per_quarter=500)
