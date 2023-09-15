@@ -189,7 +189,7 @@ if __name__ == "__main__":
     
     print('Loading model checkpoint...')
     
-    model.load_state_dict(torch.load('Euterpe_X_Large_Trained_Model_120000_steps_0.4101_loss_0.8779_acc.pth', map_location='cpu'))
+    model.load_state_dict(torch.load('Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth', map_location='cpu'))
     print('=' * 70)
     
     model.eval()    
