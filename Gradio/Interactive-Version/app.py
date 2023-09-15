@@ -134,7 +134,7 @@ def cancel_run(mid_seq):
     text_encoding = 'ISO-8859-1'
     midi_data = TMIDIX.score2midi(mid_seq, text_encoding)
 
-    with open(f"Allegro-Music-Transformer-Music-Composition.mid", 'wb') as f:
+    with open(f"Euterpe-X-Music-Composition.mid", 'wb') as f:
         f.write(midi_data)
 
     audio = synthesis(TMIDIX.score2opus(mid_seq), 'SGM-v2.01-YamahaGrand-Guit-Bass-v2.7.sf2')
