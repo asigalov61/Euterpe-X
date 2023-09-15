@@ -29,14 +29,14 @@ def GenerateMIDI(num_tok, idrums, iinstr, progress=gr.Progress()):
     print('=' * 70)
 
     if idrums:
-        drums = 3074
+        drums = 3330
     else:
-        drums = 3073
+        drums = 3329
 
     instruments_list = ["Piano", "Guitar", "Bass", "Violin", "Cello", "Harp", "Trumpet", "Sax", "Flute", 'Drums', "Choir", "Organ"]
     first_note_instrument_number = instruments_list.index(iinstr)
 
-    start_tokens = [3087, drums, 3075+first_note_instrument_number]
+    start_tokens = [3343, drums, 3331+first_note_instrument_number]
 
     print('Selected Improv sequence:')
     print(start_tokens)
@@ -69,31 +69,29 @@ def GenerateMIDI(num_tok, idrums, iinstr, progress=gr.Progress()):
         song_f = []
         time = 0
         dur = 0
-        vel = 0
+        vel = 90
         pitch = 0
         channel = 0
     
         for ss in song:
-
-            ss1 = int(ss)
-    
-            if ss1 > 0 and ss1 < 256:
-            
-              time += ss1 * 8
-            
-            if ss1 >= 256 and ss1 < 1280:
-            
-              dur = ((ss1-256) // 8) * 32
-              vel = (((ss1-256) % 8)+1) * 15
-            
-            if ss1 >= 1280 and ss1 < 2816:
-              channel = (ss1-1280) // 128
-              pitch = (ss1-1280) % 128
-            
-              song_f.append(['note', int(time), int(dur), int(channel), int(pitch), int(vel) ])
         
-    output_signature = 'Allegro Music Transformer'
-    output_file_name = 'Allegro-Music-Transformer-Music-Composition'
+            if ss > 0 and ss < 256:
+            
+                time += ss * 8
+            
+            if ss >= 256 and ss < 256+(12*128):
+            
+                dur = ((ss-256) % 128) * 30
+            
+            if ss >= 256+(12*128) and ss < 256+(12*128)+(12*128):
+                channel = (ss-(256+(12*128))) // 128
+                pitch = (ss-(256+(12*128))) % 128
+                vel = pitch
+            
+                song_f.append(['note', time, dur, channel, pitch, vel ])
+        
+    output_signature = 'Euterpe X'
+    output_file_name = 'Euterpe-X-Music-Composition'
     track_name='Project Los Angeles'
     list_of_MIDI_patches=[0, 24, 32, 40, 42, 46, 56, 71, 73, 0, 53, 19, 0, 0, 0, 0]
     number_of_ticks_per_quarter=500
@@ -124,7 +122,7 @@ def GenerateMIDI(num_tok, idrums, iinstr, progress=gr.Progress()):
 
     midi_data = TMIDIX.score2midi(output, text_encoding)
     
-    with open(f"Allegro-Music-Transformer-Music-Composition.mid", 'wb') as f:
+    with open(f"Euterpe-X-Music-Composition.mid", 'wb') as f:
         f.write(midi_data)
 
     output1 = []
@@ -152,14 +150,14 @@ def GenerateMIDI(num_tok, idrums, iinstr, progress=gr.Progress()):
       c.append(colors[s[3]])
 
     plt.figure(figsize=(14,5))
-    ax=plt.axes(title='Allegro Music Transformer Composition')
+    ax=plt.axes(title='Euterpe X Composition')
     ax.set_facecolor('black')
     
     plt.scatter(x,y, c=c)
     plt.xlabel("Time")
     plt.ylabel("Pitch")
 
-    yield [500, output1], plt, "Allegro-Music-Transformer-Music-Composition.mid", (44100, audio)
+    yield [500, output1], plt, "Euterpe-X-Music-Composition.mid", (44100, audio)
         
 #=================================================================================================
 
@@ -177,11 +175,11 @@ if __name__ == "__main__":
     # instantiate the model
     
     model = TransformerWrapper(
-        num_tokens = 3088,
+        num_tokens = 3344,
         max_seq_len = SEQ_LEN,
-        attn_layers = Decoder(dim = 1024, depth = 32, heads = 8)
+        attn_layers = Decoder(dim = 1024, depth = 60, heads = 8)
     )
-    
+
     model = AutoregressiveWrapper(model)
     
     model = torch.nn.DataParallel(model)
@@ -191,7 +189,7 @@ if __name__ == "__main__":
     
     print('Loading model checkpoint...')
     
-    model.load_state_dict(torch.load('Allegro_Music_Transformer_Small_Trained_Model_56000_steps_0.9399_loss_0.7374_acc.pth', map_location='cpu'))
+    model.load_state_dict(torch.load('Euterpe_X_Large_Trained_Model_120000_steps_0.4101_loss_0.8779_acc.pth', map_location='cpu'))
     print('=' * 70)
     
     model.eval()    
@@ -200,12 +198,12 @@ if __name__ == "__main__":
     
     app = gr.Blocks()
     with app:
-        gr.Markdown("<h1 style='text-align: center; margin-bottom: 1rem'>Allegro Music Transformer</h1>")
-        gr.Markdown("![Visitors](https://api.visitorbadge.io/api/visitors?path=asigalov61.Allegro-Music-Transformer&style=flat)\n\n"
-                    "Full-attention multi-instrumental music transformer featuring asymmetrical encoding with octo-velocity, and chords counters tokens, optimized for speed and performance\n\n"
-                    "Check out [Allegro Music Transformer](https://github.com/asigalov61/Allegro-Music-Transformer) on GitHub!\n\n"
+        gr.Markdown("<h1 style='text-align: center; margin-bottom: 1rem'>Euterpe X</h1>")
+        gr.Markdown("![Visitors](https://api.visitorbadge.io/api/visitors?path=asigalov61.Euterpe-X&style=flat)\n\n"
+                    "[SOTA] [PyTorch 2.0] [638M] [85.33% acc] Full-attention multi-instrumental music transformer for supervised music generation, optimized for speed, efficiency, and performance\n\n"
+                    "Check out [Euterpe X](https://github.com/asigalov61/Euterpe-X) on GitHub!\n\n"
                     "[Open In Colab]"
-                    "(https://colab.research.google.com/github/asigalov61/Allegro-Music-Transformer/blob/main/Allegro_Music_Transformer_Composer.ipynb)"
+                    "(https://colab.research.google.com/github/asigalov61/Euterpe-X/blob/main/Euterpe_X.ipynb)"
                     " for faster execution and endless generation"
                         )
         
