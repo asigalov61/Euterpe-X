@@ -148,7 +148,8 @@ def GenerateMIDI(num_tok, idrums, iinstr, progress=gr.Progress()):
       x.append(s[1] / 1000)
       y.append(s[4])
       c.append(colors[s[3]])
-
+          
+    plt.close()
     plt.figure(figsize=(14,5))
     ax=plt.axes(title='Euterpe X Composition')
     ax.set_facecolor('black')
