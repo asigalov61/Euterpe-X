@@ -53,7 +53,7 @@ print('Loading core Euterpe X modules...')
 
 import os
 import pickle
-import random
+
 import secrets
 import statistics
 from time import time
@@ -85,6 +85,8 @@ from sklearn import metrics
 
 from midi2audio import FluidSynth
 from IPython.display import Audio, display
+
+import random
 
 print('=' * 70)
 print('Done!')
