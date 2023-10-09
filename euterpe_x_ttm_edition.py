@@ -104,16 +104,35 @@ print('=' * 70)
 
 full_path_to_model_checkpoint = "/content/Euterpe-X/Models/Small/Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth" #@param {type:"string"}
 
+#@markdown Model precision option
+
+model_precision = "float16" # @param ["float16", "float32"]
+
+#@markdown float16 == Half precision/double speed
+
+#@markdown float32 == Full precision/normal speed
+
 print('=' * 70)
 print('Loading Euterpe X Small Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X',
-                filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth',
-                local_dir='/content/Euterpe-X/Models/Small/',
-                local_dir_use_symlinks=False)
+
+if os.path.isfile(full_path_to_model_checkpoint):
+  print('Model already exists...')
+
+else:
+  hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                  filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth',
+                  local_dir='/content/Euterpe-X/Models/Small/',
+                  local_dir_use_symlinks=False)
 print('=' * 70)
 print('Instantiating model...')
+
+torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
+torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
+device_type = 'cuda'
+ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[model_precision]
+ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
 SEQ_LEN = 2048
 
@@ -168,16 +187,36 @@ plt.savefig("/content/Euterpe-X-Small-Tokens-Embeddings-Plot.png", bbox_inches="
 
 full_path_to_model_checkpoint = "/content/Euterpe-X/Models/Large/Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth" #@param {type:"string"}
 
+#@markdown Model precision option
+
+model_precision = "float16" # @param ["float16", "float32"]
+
+#@markdown float16 == Half precision/double speed
+
+#@markdown float32 == Full precision/normal speed
+
 print('=' * 70)
 print('Loading Euterpe X Large Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X',
-                filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth',
-                local_dir='/content/Euterpe-X/Models/Large',
-                local_dir_use_symlinks=False)
+
+if os.path.isfile(full_path_to_model_checkpoint):
+  print('Model already exists...')
+
+else:
+  hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                  filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth',
+                  local_dir='/content/Euterpe-X/Models/Large',
+                  local_dir_use_symlinks=False)
+
 print('=' * 70)
 print('Instantiating model...')
+
+torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
+torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
+device_type = 'cuda'
+ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[model_precision]
+ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
 SEQ_LEN = 2048
 
@@ -233,10 +272,15 @@ plt.savefig("/content/Euterpe-X-Large-Tokens-Embeddings-Plot.png", bbox_inches="
 print('=' * 70)
 print('Loading Euterpe X Aux Data. Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X',
-                filename='Euterpe_X_Text_To_Music_Aux_Data.pickle',
-                local_dir='/content/Euterpe-X/Aux-Data/',
-                local_dir_use_symlinks=False)
+
+if os.path.isfile('/content/Euterpe-X/Aux-Data/Euterpe_X_Text_To_Music_Aux_Data.pickle'):
+  print('Aux Data already exists...')
+
+else:
+  hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                  filename='Euterpe_X_Text_To_Music_Aux_Data.pickle',
+                  local_dir='/content/Euterpe-X/Aux-Data/',
+                  local_dir_use_symlinks=False)
 print('=' * 70)
 AUX_DATA = TMIDIX.Tegridy_Any_Pickle_File_Reader('/content/Euterpe-X/Aux-Data/Euterpe_X_Text_To_Music_Aux_Data')
 
@@ -244,7 +288,7 @@ print('Done!')
 
 """# (GENERATE)"""
 
-#@title Standard/Simple Continuation
+#@title Text-To-Music Generation
 
 #@markdown Text-To-Music Settings
 
@@ -255,10 +299,14 @@ enter_desired_artist = "TV Themes" #@param {type:"string"}
 
 #@markdown Generation Settings
 
-number_of_tokens_to_generate = 426 #@param {type:"slider", min:30, max:2046, step:33}
+number_of_tokens_to_generate = 402 # @param {type:"slider", min:30, max:2046, step:3}
 number_of_batches_to_generate = 4 #@param {type:"slider", min:1, max:16, step:1}
 temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
+
+#@markdown Other settings
+
 allow_model_to_stop_generation_if_needed = False #@param {type:"boolean"}
+render_MIDI_to_audio = True # @param {type:"boolean"}
 
 print('=' * 70)
 print('Euterpe X TTM Model Generator')
@@ -310,12 +358,13 @@ inp = [outy] * number_of_batches_to_generate
 
 inp = torch.LongTensor(inp).cuda()
 
-out = model.module.generate(inp,
-                      number_of_tokens_to_generate,
-                      temperature=temperature,
-                      return_prime=True,
-                      eos_token=min_stop_token,
-                      verbose=True)
+with ctx:
+  out = model.module.generate(inp,
+                        number_of_tokens_to_generate,
+                        temperature=temperature,
+                        return_prime=True,
+                        eos_token=min_stop_token,
+                        verbose=True)
 
 out0 = out.tolist()
 print('=' * 70)
@@ -386,8 +435,9 @@ for i in range(number_of_batches_to_generate):
         y.append(s[4])
         c.append(colors[s[3]])
 
-      FluidSynth("/usr/share/sounds/sf2/FluidR3_GM.sf2", 16000).midi_to_audio(str(fname + '.mid'), str(fname + '.wav'))
-      display(Audio(str(fname + '.wav'), rate=16000))
+      if render_MIDI_to_audio:
+        FluidSynth("/usr/share/sounds/sf2/FluidR3_GM.sf2", 16000).midi_to_audio(str(fname + '.mid'), str(fname + '.wav'))
+        display(Audio(str(fname + '.wav'), rate=16000))
 
       plt.figure(figsize=(14,5))
       ax=plt.axes(title=fname)
