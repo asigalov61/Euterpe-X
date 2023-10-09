@@ -64,14 +64,6 @@ print('=' * 70)
 print('Loading main Euterpe X modules...')
 import torch
 
-torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
-torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
-device_type = 'cuda'
-dtype = 'bfloat16' if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else 'float16' # 'float32', 'bfloat16', or 'float16', the latter will auto implement a GradScaler
-
-ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[dtype]
-ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype)
-
 # %cd /content/Euterpe-X
 
 import TMIDIX
@@ -89,6 +81,8 @@ from sklearn import metrics
 from midi2audio import FluidSynth
 from IPython.display import Audio, display
 
+from google.colab import files
+
 print('=' * 70)
 print('Done!')
 print('Enjoy! :)')
@@ -105,16 +99,35 @@ print('=' * 70)
 
 full_path_to_model_checkpoint = "/content/Euterpe-X/Models/Small/Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth" #@param {type:"string"}
 
+#@markdown Model precision option
+
+model_precision = "float16" # @param ["float16", "float32"]
+
+#@markdown float16 == Half precision/double speed
+
+#@markdown float32 == Full precision/normal speed
+
 print('=' * 70)
 print('Loading Euterpe X Small Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X',
-                filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth',
-                local_dir='/content/Euterpe-X/Models/Small/',
-                local_dir_use_symlinks=False)
+
+if os.path.isfile(full_path_to_model_checkpoint):
+  print('Model already exists...')
+
+else:
+  hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                  filename='Euterpe_X_Small_Trained_Model_58000_steps_0.6865_loss_0.7964_acc.pth',
+                  local_dir='/content/Euterpe-X/Models/Small/',
+                  local_dir_use_symlinks=False)
 print('=' * 70)
 print('Instantiating model...')
+
+torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
+torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
+device_type = 'cuda'
+ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[model_precision]
+ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
 SEQ_LEN = 2048
 
@@ -169,16 +182,36 @@ plt.savefig("/content/Euterpe-X-Small-Tokens-Embeddings-Plot.png", bbox_inches="
 
 full_path_to_model_checkpoint = "/content/Euterpe-X/Models/Large/Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth" #@param {type:"string"}
 
+#@markdown Model precision option
+
+model_precision = "float16" # @param ["float16", "float32"]
+
+#@markdown float16 == Half precision/double speed
+
+#@markdown float32 == Full precision/normal speed
+
 print('=' * 70)
 print('Loading Euterpe X Large Pre-Trained Model...')
 print('Please wait...')
 print('=' * 70)
-hf_hub_download(repo_id='asigalov61/Euterpe-X',
-                filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth',
-                local_dir='/content/Euterpe-X/Models/Large',
-                local_dir_use_symlinks=False)
+
+if os.path.isfile(full_path_to_model_checkpoint):
+  print('Model already exists...')
+
+else:
+  hf_hub_download(repo_id='asigalov61/Euterpe-X',
+                  filename='Euterpe_X_Large_Trained_Model_100000_steps_0.477_loss_0.8533_acc.pth',
+                  local_dir='/content/Euterpe-X/Models/Large',
+                  local_dir_use_symlinks=False)
+
 print('=' * 70)
 print('Instantiating model...')
+
+torch.backends.cuda.matmul.allow_tf32 = True # allow tf32 on matmul
+torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
+device_type = 'cuda'
+ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[model_precision]
+ctx = torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
 SEQ_LEN = 2048
 
@@ -230,16 +263,18 @@ plt.savefig("/content/Euterpe-X-Large-Tokens-Embeddings-Plot.png", bbox_inches="
 """# (LOAD SEED MIDI)"""
 
 #@title Load Seed MIDI
-select_seed_MIDI = "Euterpe-X-Piano-Seed-1" #@param ["Euterpe-X-Piano-Seed-1", "Euterpe-X-Piano-Seed-2", "Euterpe-X-Piano-Seed-3", "Euterpe-X-Piano-Seed-4", "Euterpe-X-Piano-Seed-5", "Euterpe-X-MI-Seed-1", "Euterpe-X-MI-Seed-2", "Euterpe-X-MI-Seed-3", "Euterpe-X-MI-Seed-4", "Euterpe-X-MI-Seed-5"]
-full_path_to_custom_seed_MIDI = "" #@param {type:"string"}
+select_seed_MIDI = "Upload your own custom MIDI" #@param ["Upload your own custom MIDI", "Euterpe-X-Piano-Seed-1", "Euterpe-X-Piano-Seed-2", "Euterpe-X-Piano-Seed-3", "Euterpe-X-Piano-Seed-4", "Euterpe-X-Piano-Seed-5", "Euterpe-X-MI-Seed-1", "Euterpe-X-MI-Seed-2", "Euterpe-X-MI-Seed-3", "Euterpe-X-MI-Seed-4", "Euterpe-X-MI-Seed-5"]
 number_of_prime_tokens = 330 #@param {type:"slider", min:126, max:2000, step:3}
-render_MIDI_to_audio = True # @param {type:"boolean"}
+render_MIDI_to_audio = False # @param {type:"boolean"}
 
-if full_path_to_custom_seed_MIDI == '':
+if select_seed_MIDI != "Upload your own custom MIDI":
   f = '/content/Euterpe-X/Seeds/'+select_seed_MIDI+'.mid'
+  score = TMIDIX.midi2ms_score(open(f, 'rb').read())
 
 else:
-  f = full_path_to_custom_seed_MIDI
+  uploaded_MIDI = files.upload()
+  score = TMIDIX.midi2ms_score(list(uploaded_MIDI.values())[0])
+  f = list(uploaded_MIDI.keys())[0]
 
 print('=' * 70)
 print('Euterpe X Seed MIDI Loader')
@@ -251,9 +286,6 @@ print('=' * 70)
 
 #=======================================================
 # START PROCESSING
-
-# Convering MIDI to ms score with MIDI.py module
-score = TMIDIX.midi2ms_score(open(f, 'rb').read())
 
 # INSTRUMENTS CONVERSION CYCLE
 events_matrix = []
@@ -466,11 +498,17 @@ plt.show()
 """
 
 #@title Standard/Simple Continuation
+
+#@markdown Generation settings
+
 number_of_tokens_to_generate = 120 # @param {type:"slider", min:33, max:1023, step:3}
-number_of_batches_to_generate = 1 #@param {type:"slider", min:1, max:16, step:1}
+number_of_batches_to_generate = 4 #@param {type:"slider", min:1, max:16, step:1}
 preview_length_in_tokens = 120 # @param {type:"slider", min:33, max:240, step:3}
 number_of_memory_tokens = 2046 #@param {type:"slider", min:402, max:2046, step:3}
 temperature = 0.9 #@param {type:"slider", min:0.1, max:1, step:0.1}
+
+#@markdown Other settings
+
 try_to_generate_outro = False #@param {type:"boolean"}
 render_MIDI_to_audio = True # @param {type:"boolean"}
 
@@ -588,7 +626,7 @@ for i in range(number_of_batches_to_generate):
 #@title Choose one generated block to add to the composition
 block_action = "add_last_generated_block" #@param ["add_last_generated_block", "remove_last_added_block"]
 add_block_with_batch_number = 0 #@param {type:"slider", min:0, max:15, step:1}
-render_MIDI_to_audio = True # @param {type:"boolean"}
+render_MIDI_to_audio = False # @param {type:"boolean"}
 
 print('=' * 70)
 
