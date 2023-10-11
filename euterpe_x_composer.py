@@ -522,7 +522,7 @@ if f != '':
   colors = ['red', 'yellow', 'green', 'cyan', 'blue', 'pink', 'orange', 'purple', 'gray', 'white', 'gold', 'silver']
 
   block_lines = [(song_f[-1][1] / 1000)]
-  block_tokens = [number_of_prime_tokens]
+  block_tokens = [min(len(melody_chords_f), number_of_prime_tokens)]
 
   for s in song_f:
     x.append(s[1] / 1000)
@@ -687,8 +687,8 @@ if block_action == 'add_last_generated_block':
   melody_chords_f.extend(out0[min(len(out0)-1, add_block_with_batch_number)])
   print('Block added!')
 else:
-  if len(melody_chords_f) > number_of_prime_tokens:
-    melody_chords_f = melody_chords_f[:max(number_of_prime_tokens, (len(melody_chords_f)-block_tokens[-1]))]
+  if len(block_tokens) > 1:
+    melody_chords_f = melody_chords_f[:(len(melody_chords_f)-block_tokens[-1])]
     print('Block removed!')
   else:
     print('Nothing to remove!!!')
@@ -752,10 +752,9 @@ if len(melody_chords_f) != 0:
       block_lines.append((song_f[-1][1] / 1000))
       block_tokens.append(len(out0[min(len(out0)-1, add_block_with_batch_number)]))
     else:
-      if len(block_lines) > 1:
+      if len(block_tokens) > 1:
         block_lines.pop()
         block_tokens.pop()
-
 
     for s in song_f:
       x.append(s[1] / 1000)
