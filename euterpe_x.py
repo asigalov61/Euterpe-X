@@ -442,6 +442,9 @@ for i in range(number_of_batches_to_generate):
 """# (CUSTOM MIDI)"""
 
 #@title Load Seed MIDI
+
+#@markdown Press play button to to upload your own seed MIDI or to load one of the provided sample seed MIDIs from the dropdown list below
+
 select_seed_MIDI = "Upload your own custom MIDI" # @param ["Upload your own custom MIDI", "Euterpe-X-Piano-Seed-1", "Euterpe-X-Piano-Seed-2", "Euterpe-X-Piano-Seed-3", "Euterpe-X-Piano-Seed-4", "Euterpe-X-Piano-Seed-5", "Euterpe-X-MI-Seed-1", "Euterpe-X-MI-Seed-2", "Euterpe-X-MI-Seed-3", "Euterpe-X-MI-Seed-4", "Euterpe-X-MI-Seed-5"]
 render_MIDI_to_audio = False # @param {type:"boolean"}
 
@@ -806,11 +809,13 @@ for i in range(number_of_batches_to_generate):
 
 #@title Pitches/Instruments Inpainting
 
-#@markdown You can stop the inpainting at any time to render partial results
-
 #@markdown Inpainting settings
 
-#@markdown Select desired instruments to inpaint (any combination is fine)
+#@markdown Select desired instruments to inpaint.
+
+#@markdown Selected instruments MUST BE present in the composition for inpainting to work
+
+#@markdown You can stop the inpainting at any time to render partial results
 
 Piano = False #@param {type:"boolean"}
 Guitar = False #@param {type:"boolean"}
@@ -997,11 +1002,11 @@ if len(out2) != 0:
     plt.ylabel("Pitch")
     plt.show()
 
-"""# (HARMONIZAtioN)"""
+"""# (HARMONIZATION)"""
 
 #@title Melody Harmonization
 
-#@markdown NOTE: You can stop the generation at any time to render partial results
+#@markdown NOTE: You can stop the harmonization at any time to render partial results
 
 #@markdown Harmonization settings
 
