@@ -302,6 +302,9 @@ if plot_tokens_embeddings:
 """# (LOAD SEED MIDI)"""
 
 #@title Load Seed MIDI
+
+#@markdown Press play button to to upload your own seed MIDI or to load one of the provided sample seed MIDIs from the dropdown list below
+
 select_seed_MIDI = "Upload your own custom MIDI" # @param ["Upload your own custom MIDI", "Euterpe-X-Piano-Seed-1", "Euterpe-X-Piano-Seed-2", "Euterpe-X-Piano-Seed-3", "Euterpe-X-Piano-Seed-4", "Euterpe-X-Piano-Seed-5", "Euterpe-X-MI-Seed-1", "Euterpe-X-MI-Seed-2", "Euterpe-X-MI-Seed-3", "Euterpe-X-MI-Seed-4", "Euterpe-X-MI-Seed-5"]
 number_of_prime_tokens = 300 # @param {type:"slider", min:126, max:2000, step:3}
 render_MIDI_to_audio = False # @param {type:"boolean"}
