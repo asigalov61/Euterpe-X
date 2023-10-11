@@ -5,9 +5,6 @@
 
 ***
 
-## 🤗[Euterpe X LIVE demo on Hugging Face](https://huggingface.co/spaces/asigalov61/Euterpe-X)🤗
-
-***
 ## Original Version
 
 [![Open In Colab][colab-badge]][colab-notebook2]
