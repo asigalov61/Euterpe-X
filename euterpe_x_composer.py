@@ -333,7 +333,7 @@ if plot_velocities_map:
   plt.ylabel("Patches")
   plt.tight_layout()
   plt.plot()
-  plt.savefig("/content/Euterpe-X-Large-Velocities-Map-Plot.png", bbox_inches="tight")
+  plt.savefig("/content/Euterpe-X-Velocities-Map-Plot.png", bbox_inches="tight")
 
 """# (LOAD SEED MIDI)"""
 
