@@ -1,7 +1,11 @@
 # Euterpe X
-## [SOTA] [PyTorch 2.0] [638M] [85.33% acc] Full-attention multi-instrumental music transformer for supervised music generation, optimized for speed, efficiency, and performance
+## [DEPRECIATED] [PyTorch 2.0] [638M] [85.33% acc] Full-attention multi-instrumental music transformer for supervised music generation, optimized for speed, efficiency, and performance
 
 ![Euterpe-00003](https://user-images.githubusercontent.com/56325539/236949173-1c9e8e45-db71-4d22-9c6b-561c0304fada.png)
+
+***
+
+## UPDATE 11/22/2023 Euterpe-X had been depreciated in favor of [Giant Music Transformer](https://github.com/asigalov61/Giant-Music-Transformer)
 
 ***
 
